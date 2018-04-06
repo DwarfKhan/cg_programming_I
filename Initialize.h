@@ -1,4 +1,5 @@
 //GLEW provides the function pointers we need to access the latest features in openGL.
+#pragma once
 #include <GL/glew.h>    //Must be included before gl.h and glfw.h.
 
 //GLFW provides window creation and input control.
@@ -24,7 +25,7 @@
 using namespace glm; //For openGL mathematics
 using namespace std; //If we want to print stuff
 
-//Defines…
+					 //Defines…
 #define GLFW_DLL
 #define APP_NAME "<<Getting Started!>>"
 #define EXIT_WITH_ERROR -1
@@ -35,7 +36,28 @@ using namespace std; //If we want to print stuff
 #define SCREEN_HEIGHT 768
 #define GLFW_FAIL 0 
 
-//External Globals…
+					 //External Globals…
 extern GLFWwindow* window;
 extern GLint shaderStatus;
 extern bool activeRef;
+
+
+
+
+int InitWindowFailed();
+
+void GameLoop();
+
+GLuint LoadShaders(const char *vertex_file_path, const char *fragment_file_path);
+
+int InitGlewFailed();
+
+GLuint& LoadQuad();
+
+GLuint& LoadTriangle();
+
+void RenderVertex(GLuint vertexBuffer);
+
+void RenderQuad(GLuint vertexBuffer);
+
+void RenderTriangle(GLuint vertexBuffer);
