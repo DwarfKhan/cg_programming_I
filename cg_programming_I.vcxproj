@@ -74,10 +74,12 @@
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="Initialize.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Matrix.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="Initialize.h" />
+    <ClInclude Include="Matrix.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="BasicFragmentShader.fragmentshader" />

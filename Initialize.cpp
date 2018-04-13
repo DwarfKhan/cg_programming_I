@@ -183,7 +183,11 @@ void RenderVertex(GLuint vertexBuffer) {
 }
 
 void RenderQuad(GLuint vertexBuffer) {
+
+
 	RenderVertex(vertexBuffer);
+
+
 
 	glDrawArrays(GL_TRIANGLES, 0, 6);
 	glDisableVertexAttribArray(0);
