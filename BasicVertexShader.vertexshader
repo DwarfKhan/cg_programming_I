@@ -1,8 +1,22 @@
 #version 330 core
 
 layout(location = 0)
-in vec3 model_space_pos;
+in vec3 vert_pos;
+in vec3 normal;
+
+//out vec4 color;
+//out vec4 norm;
+
+uniform mat4 model;
 
 void main(){
-	gl_Position = vec4(model_space_pos, 1);
+	gl_Position = model * vec4(vert_pos, 1);
+
+	//vec3 leg1 = gl_Position[1] - gl_Position[0];
+	//vec3 leg2 = gl_Position[2] - gl_Position[0];
+
+	//normal = normalize(cross(leg1, leg2));
+	normal = model * vec4(gl_Normal.xyz, 1);
+
+
 }

@@ -1,7 +1,6 @@
-#include "Initialize.h"
+#include "Init.h"
 
 GLFWwindow* window = NULL;
-
 
 int InitWindowFailed() {
 	if (glfwInit() == GLFW_FAIL) {
@@ -31,7 +30,6 @@ int InitWindowFailed() {
 
 	return EXIT_WITH_SUCCESS;
 }
-
 
 GLuint LoadShaders(const char *vertex_file_path, const char *fragment_file_path) {
 	GLuint vertexShaderID = glCreateShader(GL_VERTEX_SHADER);
@@ -118,7 +116,6 @@ GLuint LoadShaders(const char *vertex_file_path, const char *fragment_file_path)
 	return programID;
 }
 
-
 int InitGlewFailed() {
 	glewExperimental = true;	//Has to do with core profile.
 	int init = (int)glewInit();
@@ -168,39 +165,71 @@ GLuint& LoadTriangle() {
 	return vertexBuffer;
 }
 
-void RenderVertex(GLuint vertexBuffer) {
-	glEnableVertexAttribArray(0);
+GLuint& LoadCube() {
+
+	static GLfloat g_vertex_buffer_data[] = {
+		// front face
+		0.0f, 0.0f, 0.0f,
+		1.0f, 0.0f, 0.0f,
+		1.0f, 1.0f, 0.0f,
+		0.0f, 0.0f, 0.0f,
+		1.0f, 1.0f, 0.0f,
+		0.0f, 1.0f, 0.0f,
+
+		// right face
+		1.0f, 0.0f, 0.0f,
+		1.0f, 0.0f, 1.0f,
+		1.0f, 1.0f, 1.0f,
+		1.0f, 1.0f, 1.0f,
+		1.0f, 1.0f, 0.0f,
+		1.0f, 0.0f, 0.0f,
+
+		// left face
+		0.0f, 0.0f, 0.0f, //6
+		0.0f, 1.0f, 0.0f, //5
+		0.0f, 1.0f, 1.0f,//4
+		0.0f, 1.0f, 1.0f,//3
+		0.0f, 0.0f, 1.0f,//2
+		0.0f, 0.0f, 0.0f, //1
+
+		// back face
+		1.0f, 1.0f, 1.0f,
+		1.0f, 0.0f, 1.0f,
+		0.0f, 0.0f, 1.0f,
+		0.0f, 0.0f, 1.0f,
+		0.0f, 1.0f, 1.0f, 
+		1.0f, 1.0f, 1.0f,
+
+		// top face
+		0.0f, 0.0f, 0.0f,
+		0.0f, 0.0f, 1.0f,
+		1.0f, 0.0f, 0.0f,
+		0.0f, 0.0f, 1.0f,
+		1.0f, 0.0f, 1.0f,
+		1.0f, 0.0f, 0.0f,
+
+		// bottom face
+		0.0f, 1.0f, 0.0f,
+		1.0f, 1.0f, 0.0f,
+		1.0f, 1.0f, 1.0f,
+		1.0f, 1.0f, 1.0f,
+		0.0f, 1.0f, 1.0f,
+		0.0f, 1.0f, 0.0f
+
+		//36 verts
+
+	};
+
+	int numPoints = 6 * 3 * 6;
+
+	for (int i = 0; i < numPoints; ++i) {
+		g_vertex_buffer_data[i] -= 0.5f;
+	}
+
+	GLuint vertexBuffer = 0;
+	glGenBuffers(1, &vertexBuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
 
-	glVertexAttribPointer(
-		0,			//attribute layout
-		3,			//Elements in array
-		GL_FLOAT,	//Each element is of type float
-		GL_FALSE,	//Normalized?
-		0,			//Stride...
-		(void*)0	//Array buffer offset...
-	);
-}
-
-void RenderQuad(GLuint vertexBuffer) {
-
-
-	RenderVertex(vertexBuffer);
-
-
-
-	glDrawArrays(GL_TRIANGLES, 0, 6);
-	glDisableVertexAttribArray(0);
-}
-
-void RenderTriangle(GLuint vertexBuffer) {
-	RenderVertex(vertexBuffer);
-
-	glDrawArrays(GL_TRIANGLES, 0, 3);
-	glDisableVertexAttribArray(0);
-}
-
-void GameLoop() {
-
-
+	return vertexBuffer;
 }

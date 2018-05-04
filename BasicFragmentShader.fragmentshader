@@ -3,8 +3,12 @@
 // Ouput data
 out vec3 color;
 
+in vec3 normal;
+
 void main()
 {
 	// Output color = red 
-	color = vec3(gl_FragCoord.x, gl_FragCoord.y, gl_FragCoord.z);
+	//color = vec3(gl_FragCoord.x, gl_FragCoord.y, gl_FragCoord.z);
+		color = vec3(1,0,1);
+
 }

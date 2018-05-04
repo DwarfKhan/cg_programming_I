@@ -1,5 +1,6 @@
-//GLEW provides the function pointers we need to access the latest features in openGL.
 #pragma once
+
+//GLEW provides the function pointers we need to access the latest features in openGL.
 #include <GL/glew.h>    //Must be included before gl.h and glfw.h.
 
 //GLFW provides window creation and input control.
@@ -7,6 +8,10 @@
 
 //GLM provides openGL mathematics.
 #include <glm/glm.hpp>
+
+//For matrices...
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 //Standard Headers…
 #include <stdio.h>
@@ -25,39 +30,25 @@
 using namespace glm; //For openGL mathematics
 using namespace std; //If we want to print stuff
 
-					 //Defines…
+//Defines…
 #define GLFW_DLL
 #define APP_NAME "<<Getting Started!>>"
 #define EXIT_WITH_ERROR -1
 #define EXIT_WITH_SUCCESS 0
 #define OPEN_GL_VERSION 3  //Specifies OpenGL 3.3
 #define ANTIALIASING 4  //nx antialiasing
-#define SCREEN_WIDTH 1024
-#define SCREEN_HEIGHT 768
+#define SCREEN_WIDTH 800
+#define SCREEN_HEIGHT 800
 #define GLFW_FAIL 0 
 
-					 //External Globals…
+//External Globals…
 extern GLFWwindow* window;
 extern GLint shaderStatus;
 extern bool activeRef;
 
-
-
-
 int InitWindowFailed();
-
-void GameLoop();
-
 GLuint LoadShaders(const char *vertex_file_path, const char *fragment_file_path);
-
 int InitGlewFailed();
-
 GLuint& LoadQuad();
-
+GLuint& LoadCube();
 GLuint& LoadTriangle();
-
-void RenderVertex(GLuint vertexBuffer);
-
-void RenderQuad(GLuint vertexBuffer);
-
-void RenderTriangle(GLuint vertexBuffer);

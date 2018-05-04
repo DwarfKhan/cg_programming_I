@@ -1,18 +1,12 @@
-#include "GameManager.h"
-#include "Matrix.h"
-//GLFWwindow* window = NULL;
-
-
+#include "Renderer.h"
 
 int main(){
+
 	if(InitWindowFailed() | InitGlewFailed()){
 		return EXIT_WITH_ERROR;
 	}
 
-	Matrix matrix;
-
 	BeginRendering();
-
 
 	return EXIT_WITH_SUCCESS;
 }

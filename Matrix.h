@@ -1,15 +1,16 @@
 #pragma once
-
-class Matrix {
+class Matrix
+{
 public:
 	Matrix();
+	~Matrix();
 
 	void MakeIdentity();
-
 	void Transpose();
 
+	Matrix Transposed();
 
 public:
-	float arr[4][4] = { 0, 1, 2, 3,4,5,6,7,8,9,10,11,12,13,14,15};
-
+	float mArr[4][4] = { 0, 0 };
 };
+
