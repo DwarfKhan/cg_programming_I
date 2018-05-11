@@ -150,12 +150,64 @@ GLuint& LoadQuad() {
 	return vertexBuffer;
 }
 
-GLuint& LoadTriangle() {
-	static const GLfloat g_vertex_buffer_data[] = {
-		-1.0f, -1.0f, 0.0f,
-		1.0f, -1.0f, 0.0f,
+GLuint& LoadCube() {
+
+	static GLfloat g_vertex_buffer_data[] = {
+		//front face, 6 vertices
+		0.0f, 0.0f, 0.0f,
+		1.0f, 0.0f, 0.0f,
+		1.0f, 1.0f, 0.0f,
+		0.0f, 0.0f, 0.0f,
+		1.0f, 1.0f, 0.0f,
+		0.0f, 1.0f, 0.0f,
+
+		//right face, 6 vertices
+		1.0f, 0.0f, 0.0f,
+		1.0f, 0.0f, 1.0f,
+		1.0f, 1.0f, 1.0f,
+		1.0f, 1.0f, 1.0f,
+		1.0f, 1.0f, 0.0f,
+		1.0f, 0.0f, 0.0f,
+
+		//left face, 6 vertices
+		0.0f, 0.0f, 0.0f,
+		0.0f, 1.0f, 0.0f,
+		0.0f, 1.0f, 1.0f,
+		0.0f, 1.0f, 1.0f,
+		0.0f, 0.0f, 1.0f,
+		0.0f, 0.0f, 0.0f,
+
+		//back face, 6 vertices
+		1.0f, 1.0f, 1.0f,
+		1.0f, 0.0f, 1.0f,
+		0.0f, 0.0f, 1.0f,
+		0.0f, 0.0f, 1.0f,
+		0.0f, 1.0f, 1.0f,
+		1.0f, 1.0f, 1.0f,
+
+		//top face, 6 vertices
+		0.0f, 0.0f, 0.0f,
+		0.0f, 0.0f, 1.0f,
+		1.0f, 0.0f, 0.0f,
+		0.0f, 0.0f, 1.0f,
+		1.0f, 0.0f, 1.0f,
+		1.0f, 0.0f, 0.0f,
+
+		//bottom face, 6 vertices
+		0.0f, 1.0f, 0.0f,
+		1.0f, 1.0f, 0.0f,
+		1.0f, 1.0f, 1.0f,
+		1.0f, 1.0f, 1.0f,
+		0.0f, 1.0f, 1.0f,
 		0.0f, 1.0f, 0.0f
+
+		//6 * 6 = 36 vertices
 	};
+
+	int numPoints = 6 * 3 * 6;
+	for (int i = 0; i < numPoints; ++i) {
+		g_vertex_buffer_data[i] -= 0.5f;
+	}
 
 	GLuint vertexBuffer = 0;
 	glGenBuffers(1, &vertexBuffer);
@@ -165,66 +217,12 @@ GLuint& LoadTriangle() {
 	return vertexBuffer;
 }
 
-GLuint& LoadCube() {
-
-	static GLfloat g_vertex_buffer_data[] = {
-		// front face
-		0.0f, 0.0f, 0.0f,
-		1.0f, 0.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		0.0f, 0.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		0.0f, 1.0f, 0.0f,
-
-		// right face
-		1.0f, 0.0f, 0.0f,
-		1.0f, 0.0f, 1.0f,
-		1.0f, 1.0f, 1.0f,
-		1.0f, 1.0f, 1.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 0.0f, 0.0f,
-
-		// left face
-		0.0f, 0.0f, 0.0f, //6
-		0.0f, 1.0f, 0.0f, //5
-		0.0f, 1.0f, 1.0f,//4
-		0.0f, 1.0f, 1.0f,//3
-		0.0f, 0.0f, 1.0f,//2
-		0.0f, 0.0f, 0.0f, //1
-
-		// back face
-		1.0f, 1.0f, 1.0f,
-		1.0f, 0.0f, 1.0f,
-		0.0f, 0.0f, 1.0f,
-		0.0f, 0.0f, 1.0f,
-		0.0f, 1.0f, 1.0f, 
-		1.0f, 1.0f, 1.0f,
-
-		// top face
-		0.0f, 0.0f, 0.0f,
-		0.0f, 0.0f, 1.0f,
-		1.0f, 0.0f, 0.0f,
-		0.0f, 0.0f, 1.0f,
-		1.0f, 0.0f, 1.0f,
-		1.0f, 0.0f, 0.0f,
-
-		// bottom face
-		0.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 1.0f,
-		1.0f, 1.0f, 1.0f,
-		0.0f, 1.0f, 1.0f,
+GLuint& LoadTriangle() {
+	static const GLfloat g_vertex_buffer_data[] = {
+		-1.0f, -1.0f, 0.0f,
+		1.0f, -1.0f, 0.0f,
 		0.0f, 1.0f, 0.0f
-
-		//36 verts
-
 	};
-
-	int numPoints = 6 * 3 * 6;
-
-	for (int i = 0; i < numPoints; ++i) {
-		g_vertex_buffer_data[i] -= 0.5f;
-	}
 
 	GLuint vertexBuffer = 0;
 	glGenBuffers(1, &vertexBuffer);

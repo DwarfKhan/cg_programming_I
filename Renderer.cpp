@@ -4,43 +4,39 @@ namespace {
 	double lastTime = glfwGetTime();
 	float deltaTime = lastTime;
 
-	float angle = 0;
-	float timeAngle;
+	float angle = 0.0f;
 
-	auto objPosition = glm::vec3(0, 0, 0);
+	auto objPos = glm::vec3(0, 0, 0);
 
 	glm::mat4 TransformObject() {
 		//Keyboard input handled here...
 		if (glfwGetKey(window, GLFW_KEY_RIGHT)) {
-			objPosition.x += (deltaTime);
+			objPos.x += (deltaTime);
 		}
 		if (glfwGetKey(window, GLFW_KEY_LEFT)) {
-			objPosition.x -= (deltaTime);
+			objPos.x -= (deltaTime);
 		}
 		if (glfwGetKey(window, GLFW_KEY_UP)) {
-			objPosition.y += (deltaTime);
+			objPos.y += (deltaTime);
 		}
 		if (glfwGetKey(window, GLFW_KEY_DOWN)) {
-			objPosition.y -= (deltaTime);
+			objPos.y -= (deltaTime);
 		}
+
 		if (glfwGetKey(window, GLFW_KEY_Q)) {
-			angle += (deltaTime * 40);
+			angle += deltaTime * 60.0f;
 		}
 		if (glfwGetKey(window, GLFW_KEY_E)) {
-			angle -= (deltaTime * 40);
+			angle -= deltaTime * 60.0f;
 		}
 
-		timeAngle += deltaTime * 30;
-
 		//Matrix math here...
-		glm::mat4 model;// starts as identity matrix
+		glm::mat4 model;								//Starts out as identity matrix...
+		
 
-		model = glm::rotate(model, timeAngle, vec3(1, 1, 1));
-		model = glm::translate(model, objPosition);//moves quad
-		model = glm::rotate(model, angle, vec3(1, 0, 0));
+		model = glm::rotate(model, angle, vec3(1, 1, 0));
 
-
-		//angle += deltaTime * 5;
+		//model = glm::translate(model, objPos);			//Moves quad...
 
 		return model;
 	}
@@ -59,6 +55,9 @@ void BeginRendering()
 	GLuint quadID = LoadQuad();
 	GLuint cubeID = LoadCube();
 
+
+	ObjLoader::ObjData data;
+	ObjLoader::Load("cubish.obj", data);
 
 	do {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -101,6 +100,13 @@ void RenderVertex(GLuint vertexBuffer, glm::mat4 model, GLuint programID /*shade
 	);
 }
 
+void RenderCube(GLuint vertexBuffer, glm::mat4 model, GLuint programID) {
+	RenderVertex(vertexBuffer, model, programID);
+
+	glDrawArrays(GL_TRIANGLES, 0, 36);
+	glDisableVertexAttribArray(0);
+}
+
 void RenderQuad(GLuint vertexBuffer, glm::mat4 model, GLuint programID) {
 	RenderVertex(vertexBuffer, model, programID);
 
@@ -112,12 +118,5 @@ void RenderTriangle(GLuint vertexBuffer, glm::mat4 model, GLuint programID) {
 	RenderVertex(vertexBuffer, model, programID);
 
 	glDrawArrays(GL_TRIANGLES, 0, 3);
-	glDisableVertexAttribArray(0);
-}
-
-void RenderCube(GLuint vertexBuffer, glm::mat4 model, GLuint programID) {
-	RenderVertex(vertexBuffer, model, programID);
-
-	glDrawArrays(GL_TRIANGLES, 0, 36);
 	glDisableVertexAttribArray(0);
 }
