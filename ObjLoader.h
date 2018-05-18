@@ -6,6 +6,7 @@
 
 namespace ObjLoader {
 	struct ObjData {
+		unsigned int id = 0;
 		unsigned int *faces = nullptr;
 		float *vertices = nullptr, *normals = nullptr,
 			*uvs = nullptr;

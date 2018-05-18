@@ -150,6 +150,18 @@ GLuint& LoadQuad() {
 	return vertexBuffer;
 }
 
+ObjLoader::ObjData LoadObj(const char* filePath)
+{
+	ObjLoader::ObjData data;
+	ObjLoader::Load(filePath, data);
+
+	glGenBuffers(1, &data.id);
+	glBindBuffer(GL_ARRAY_BUFFER, data.id);
+	glBufferData(GL_ARRAY_BUFFER, data.numVertices * sizeof(float) * 3, data.vertices, GL_STATIC_DRAW);
+
+	return data;
+}
+
 GLuint& LoadCube() {
 
 	static GLfloat g_vertex_buffer_data[] = {

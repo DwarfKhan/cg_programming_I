@@ -54,17 +54,16 @@ void BeginRendering()
 	GLuint triangleID = LoadTriangle();
 	//GLuint quadID = LoadQuad();
 	GLuint cubeID = LoadCube();
+	auto cube = LoadObj("cube.obj");
 
-	ObjLoader::ObjData data;
-	ObjLoader::Load("cube.obj", data);
 
 	do {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		//RenderTriangle(triangleID);
 		//RenderQuad(quadID, TransformQuad(), programID);
-		RenderCube(cubeID, TransformObject(), programID);
-
+		//RenderCube(cubeID, TransformObject(), programID);
+		RenderObj(cube, TransformObject(), programID);
 		//Update();
 		//Render();
 		glfwSwapBuffers(window);
@@ -118,4 +117,13 @@ void RenderTriangle(GLuint vertexBuffer, glm::mat4 model, GLuint programID) {
 
 	glDrawArrays(GL_TRIANGLES, 0, 3);
 	glDisableVertexAttribArray(0);
+}
+
+void RenderObj(ObjLoader::ObjData data, glm::mat4 model, GLuint programID)
+{
+	RenderVertex(data.id, model, programID);
+
+	//glDrawElements(GL_TRIANGLES, 4, GL_UNSIGNED_INT, data.faces);
+	glDrawArrays(GL_TRIANGLES, 0, data.numVertices);
+	//glDisableVertexAttribArray(0);
 }

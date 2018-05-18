@@ -23,6 +23,7 @@
 #include <cmath>
 #include <fstream>
 #include <string>
+#include "ObjLoader.h"
 
 #pragma once
 
@@ -50,5 +51,6 @@ int InitWindowFailed();
 GLuint LoadShaders(const char *vertex_file_path, const char *fragment_file_path);
 int InitGlewFailed();
 GLuint& LoadQuad();
+ObjLoader::ObjData LoadObj(const char* filePath);
 GLuint& LoadCube();
 GLuint& LoadTriangle();
