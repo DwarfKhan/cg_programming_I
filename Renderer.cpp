@@ -52,12 +52,11 @@ void BeginRendering()
 	GLuint programID = LoadShaders("BasicVertexShader.vertexshader", "BasicFragmentShader.fragmentshader");
 
 	GLuint triangleID = LoadTriangle();
-	GLuint quadID = LoadQuad();
+	//GLuint quadID = LoadQuad();
 	GLuint cubeID = LoadCube();
 
-
 	ObjLoader::ObjData data;
-	ObjLoader::Load("cubish.obj", data);
+	ObjLoader::Load("cube.obj", data);
 
 	do {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

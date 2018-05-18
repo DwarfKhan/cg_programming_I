@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Init.h"
-#include "ObjectData.h"
+#include "ObjLoader.h"
 
 void BeginRendering();
 
