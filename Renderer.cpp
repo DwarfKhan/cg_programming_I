@@ -31,14 +31,61 @@ namespace {
 		}
 
 		//Matrix math here...
-		glm::mat4 model;								//Starts out as identity matrix...
-		
-
-		model = glm::rotate(model, angle, vec3(1, 1, 0));
+		glm::mat4 model;	//Starts out as identity matrix...
+		model = glm::rotate(model, angle, vec3(1, 1.3, .2));
 
 		//model = glm::translate(model, objPos);			//Moves quad...
 
 		return model;
+	}
+
+	void PrepareToRenderVertices(GLuint vertexBufferID, glm::mat4 model, GLuint programID /*shader program id*/) {
+		glUseProgram(programID);
+
+		GLuint uniformModel = glGetUniformLocation(programID, "model");
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+
+		glEnableVertexAttribArray(0);
+		glBindBuffer(GL_ARRAY_BUFFER, vertexBufferID);
+
+		glVertexAttribPointer(
+			0,			//attribute layout
+			3,			//Elements in array
+			GL_FLOAT,	//Each element is of type float
+			GL_FALSE,	//Normalized?
+			0,			//Stride...
+			(void*)0	//Array buffer offset...
+		);
+	}
+
+	void RenderObj(ObjLoader::ObjData data, glm::mat4 model, GLuint programID) {
+		PrepareToRenderVertices(data.vertexBufferID, model, programID);
+
+		//TODO: Verify this is correct...
+		//glDrawElements(GL_TRIANGLES, 4, GL_UNSIGNED_INT, data.faces);
+		glDrawArrays(RENDER_MODE, 0, data.numVertices);
+		glDisableVertexAttribArray(0);
+	}
+
+	void RenderCube(GLuint vertexBufferID, glm::mat4 model, GLuint programID) {
+		PrepareToRenderVertices(vertexBufferID, model, programID);
+
+		glDrawArrays(RENDER_MODE, 0, 36);
+		glDisableVertexAttribArray(0);
+	}
+
+	void RenderQuad(GLuint vertexBufferID, glm::mat4 model, GLuint programID) {
+		PrepareToRenderVertices(vertexBufferID, model, programID);
+
+		glDrawArrays(RENDER_MODE, 0, 6);
+		glDisableVertexAttribArray(0);
+	}
+
+	void RenderTriangle(GLuint vertexBufferID, glm::mat4 model, GLuint programID) {
+		PrepareToRenderVertices(vertexBufferID, model, programID);
+
+		glDrawArrays(RENDER_MODE, 0, 3);
+		glDisableVertexAttribArray(0);
 	}
 }
 
@@ -52,10 +99,9 @@ void BeginRendering()
 	GLuint programID = LoadShaders("BasicVertexShader.vertexshader", "BasicFragmentShader.fragmentshader");
 
 	GLuint triangleID = LoadTriangle();
-	//GLuint quadID = LoadQuad();
+	GLuint quadID = LoadQuad();
 	GLuint cubeID = LoadCube();
 	auto cube = LoadObj("cube.obj");
-
 
 	do {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -64,6 +110,7 @@ void BeginRendering()
 		//RenderQuad(quadID, TransformQuad(), programID);
 		//RenderCube(cubeID, TransformObject(), programID);
 		RenderObj(cube, TransformObject(), programID);
+
 		//Update();
 		//Render();
 		glfwSwapBuffers(window);
@@ -77,53 +124,4 @@ void BeginRendering()
 
 	} while (glfwGetKey(window, GLFW_KEY_ESCAPE) != GLFW_PRESS &&
 		glfwWindowShouldClose(window) == 0);
-}
-
-void RenderVertex(GLuint vertexBuffer, glm::mat4 model, GLuint programID /*shader program id*/) {
-	glUseProgram(programID);
-
-	GLuint uniformModel = glGetUniformLocation(programID, "model");
-	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-
-	glEnableVertexAttribArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
-
-	glVertexAttribPointer(
-		0,			//attribute layout
-		3,			//Elements in array
-		GL_FLOAT,	//Each element is of type float
-		GL_FALSE,	//Normalized?
-		0,			//Stride...
-		(void*)0	//Array buffer offset...
-	);
-}
-
-void RenderCube(GLuint vertexBuffer, glm::mat4 model, GLuint programID) {
-	RenderVertex(vertexBuffer, model, programID);
-
-	glDrawArrays(GL_TRIANGLES, 0, 36);
-	glDisableVertexAttribArray(0);
-}
-
-void RenderQuad(GLuint vertexBuffer, glm::mat4 model, GLuint programID) {
-	RenderVertex(vertexBuffer, model, programID);
-
-	glDrawArrays(GL_TRIANGLES, 0, 6);
-	glDisableVertexAttribArray(0);
-}
-
-void RenderTriangle(GLuint vertexBuffer, glm::mat4 model, GLuint programID) {
-	RenderVertex(vertexBuffer, model, programID);
-
-	glDrawArrays(GL_TRIANGLES, 0, 3);
-	glDisableVertexAttribArray(0);
-}
-
-void RenderObj(ObjLoader::ObjData data, glm::mat4 model, GLuint programID)
-{
-	RenderVertex(data.id, model, programID);
-
-	//glDrawElements(GL_TRIANGLES, 4, GL_UNSIGNED_INT, data.faces);
-	glDrawArrays(GL_TRIANGLES, 0, data.numVertices);
-	//glDisableVertexAttribArray(0);
 }

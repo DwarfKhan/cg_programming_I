@@ -23,9 +23,8 @@
 #include <cmath>
 #include <fstream>
 #include <string>
-#include "ObjLoader.h"
 
-#pragma once
+#include "ObjLoader.h"
 
 //Namespaces…
 using namespace glm; //For openGL mathematics
@@ -50,7 +49,7 @@ extern bool activeRef;
 int InitWindowFailed();
 GLuint LoadShaders(const char *vertex_file_path, const char *fragment_file_path);
 int InitGlewFailed();
-GLuint& LoadQuad();
 ObjLoader::ObjData LoadObj(const char* filePath);
+GLuint& LoadQuad();
 GLuint& LoadCube();
 GLuint& LoadTriangle();
